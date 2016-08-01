@@ -57,7 +57,14 @@ ForEach($newFile in $ToChange)
         If($oldName -notmatch $name)
         {
             #gets architecture
-            $Arch = (Get-WmiObject Win32_OperatingSystem -computername $name).OSArchitecture 
+            try
+            {
+                $Arch = (Get-WmiObject Win32_OperatingSystem -computername $name).OSArchitecture
+            }
+            catch
+            {
+                $Arch = "32-bit"
+            } 
 
             #starts scan depending on architecture
             #PLEASE NOTE: IF THE COMPUTER IS NOT ONLINE,
