@@ -4,10 +4,10 @@
 
 
 #set up variables
-$EmailTo = "IT-Alerts@regi.com"
-$EmailFrom = "sophos@regi.com"
-$logPathToday = "\\amessophos\C$\SAV32Logs\Today\"
-$logPathOld = "\\amessophos\C$\SAV32Logs\Old\"
+$EmailTo = "alertemail@domain.com"
+$EmailFrom = "email@domain.com"
+$logPathToday = "\\server\pathtoday"
+$logPathOld = "\\server\pathold"
 
 #gets all log files from current day's scans
 $logs = Get-ChildItem $logPathToday
@@ -51,7 +51,7 @@ ForEach($log in $logs)
             #then moves the log to the old folder
             $EmailSubject = "A virus has been discovered."
             $EmailBody = "A virus has been discovered on a managed computer. Read through $log (attached to this email) for more details."
-            Send-MailMessage -To $EmailTo -From $EmailFrom -Subject $EmailSubject -Body $EmailBody -SmtpServer smtp.regi.com -Attachments $logPathToday\$log
+            Send-MailMessage -To $EmailTo -From $EmailFrom -Subject $EmailSubject -Body $EmailBody -SmtpServer smtp.domain.com -Attachments $logPathToday\$log
             Move-Item -Destination $logPathOld -Path $logPathToday\$log -Force
         }
     }
@@ -59,7 +59,7 @@ ForEach($log in $logs)
     {
         $EmailSubject = "A virus has been discovered."
         $EmailBody = "A virus has been discovered on a managed computer. Read through $log (attached to this email) for more details."
-        Send-MailMessage -To $EmailTo -From $EmailFrom -Subject $EmailSubject -Body $EmailBody -SmtpServer smtp.regi.com -Attachments $logPathToday\$log
+        Send-MailMessage -To $EmailTo -From $EmailFrom -Subject $EmailSubject -Body $EmailBody -SmtpServer smtp.domain.com -Attachments $logPathToday\$log
         Move-Item -Destination $logPathOld -Path $logPathToday\$log -Force
     }
 
